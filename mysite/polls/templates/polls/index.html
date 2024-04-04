@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare Sheets</title>
+  </head>
+  <body>
+    <main>
+      <h1>Upload your archives</h1>
+
+      {% if data %}
+      <p>{{data}}</p>
+      {% else %}
+      <p>Nenhuma informação</p>
+      {% endif %}
+
+      <form action="http://127.0.0.1:8000/polls/get_sheets" method="post">
+        {% csrf_token %}
+        <label for="your_name"> Write Your Name</label>
+        <input
+          type="text"
+          id="your_name"
+          name="your_name"
+          value="{{ current_name }}"
+          placeholder="Your name"
+        />
+        <input
+          type="text"
+          id="your_name"
+          name="your_name"
+          value="{{ current_name }}"
+          placeholder="Your name"
+        />
+        <button type="submit">Enviar</button>
+      </form>
+    </main>
+  </body>
+</html>
