@@ -1,39 +1,65 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <title>Compare Sheets</title>
   </head>
   <body>
     <main>
       <h1>Upload your archives</h1>
+      <div>
+        <div>
+          <div>
+            <label for="">Documento 1</label>
+            <div id="file_1_inputs">
+              <input class="col_file_1" type="text" placeholder="A" />
+            </div>
+            <label for="">Documento 2</label>
+            <div id="file_2_inputs">
+              <input class="col_file_2" type="text" placeholder="B" />
+            </div>
+            <br />
+          </div>
+          <br />
+          <button id="button_add_inputs">Adicionar mais colunas</button>
+        </div>
+      </div>
 
-      {% if data %}
-      <p>{{data}}</p>
-      {% else %}
-      <p>Nenhuma informação</p>
-      {% endif %}
-
-      <form action="http://127.0.0.1:8000/polls/get_sheets" method="post">
+      <br />
+      <form
+        id="uploadForm"
+        enctype="multipart/form-data"
+        method="post"
+        action="javascript:void(0);"
+      >
         {% csrf_token %}
-        <label for="your_name"> Write Your Name</label>
-        <input
-          type="text"
-          id="your_name"
-          name="your_name"
-          value="{{ current_name }}"
-          placeholder="Your name"
-        />
-        <input
-          type="text"
-          id="your_name"
-          name="your_name"
-          value="{{ current_name }}"
-          placeholder="Your name"
-        />
-        <button type="submit">Enviar</button>
+        <div>
+          <label for="file_1"> Documento 1</label>
+          <input
+            type="file"
+            id="file_1"
+            name="file_1"
+            placeholder="Arraste seu arquivo aqui"
+            required
+          />
+          <br />
+          <label for="file_2"> Documento 2</label>
+          <input
+            type="file"
+            id="file_2"
+            name="file_2"
+            placeholder="Arraste seu arquivo aqui"
+            required
+          />
+        </div>
+        <br />
+        <button id="button_submit">Enviar</button>
       </form>
     </main>
+
+    <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
   </body>
 </html>
