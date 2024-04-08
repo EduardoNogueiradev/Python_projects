@@ -14,24 +14,29 @@ def find_columns(df, cols):
         return columns
     
 def set_default_values(df, cols):
+    df_copy = df.copy()
     for col in range(0, len(df.columns)):
         for row in range(0, len(df.index)):
+            value = df.at[df.index[row], cols[col]]
+            
+            copy_row = df_copy.index[row]
+            copy_col = df_copy.columns[col]
             match col:
                 case 0:
-                    if df.at[df.index[row], cols[col]] != cols[0]:
-                        df.at[df.index[row], cols[col]] = int(df.at[df.index[row], cols[col]])
+                    if value != cols[0]:
+                        df_copy.at[copy_row, copy_col] = int(value)
                 case 1:
-                    if df.at[df.index[row], cols[col]] != cols[1]:
-                        df.at[df.index[row], cols[col]] = int(df.at[df.index[row], cols[col]])
+                    if value != cols[1]:
+                        df_copy.at[copy_row, copy_col] = int(value)
                 case 2:
-                    if df.at[df.index[row], cols[col]] != cols[2]:
-                        df.at[df.index[row], cols[col]] = str(df.at[df.index[row], cols[col]]).lower()
+                    if value != cols[2]:
+                        df_copy.at[copy_row, copy_col] = str(value).lower()
                 case 3:
-                    if df.at[df.index[row], cols[col]] != cols[3]:
-                        df.at[df.index[row], cols[col]] = round(df.at[df.index[row], cols[col]], 2)
+                    if value != cols[3]:
+                        df_copy.at[copy_row, copy_col] = round(value)
                 case _:
                     return
-    return df
+    return df_copy
 
 def compare_values(df1, df2, cols1, cols2):
     df_incorret_values = pd.DataFrame([], columns=cols2)
