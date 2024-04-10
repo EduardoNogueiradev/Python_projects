@@ -17,10 +17,10 @@ def index(request):
 # Rota POST '/get_sheets' executa e retorna o resultado do script
 @csrf_exempt
 def get_sheets(request):
-
   # Verifica o método da requisição
   if request.method == 'POST':
     form = FileForm(request.POST, request.FILES)
+    print(form)
 
     # Verifica se o formulário é válido
     if form.is_valid():

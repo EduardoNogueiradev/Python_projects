@@ -1,65 +1,127 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
     <title>Compare Sheets</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <main>
-      <h1>Upload your archives</h1>
-      <div>
-        <div>
-          <div>
-            <label for="">Documento 1</label>
-            <div id="file_1_inputs">
-              <input class="col_file_1" type="text" placeholder="A" />
-            </div>
-            <label for="">Documento 2</label>
-            <div id="file_2_inputs">
-              <input class="col_file_2" type="text" placeholder="B" />
-            </div>
-            <br />
+    <header class="header">
+      <h1 class="header-title">Compare Sheets</h1>
+      <div class="header-wrapper">
+        <section class="header-information">
+          <i class="ph ph-file-xls"></i>
+          <div class="information-content">
+            <p><b>Compare arquivos excel ou outras planilhas</b></p>
+            <p>Acha a diferença entre os dois arquivos</p>
+            <p>Arquivos suportados: xls/xlsx/xlsm/xlsb, csv, txt, dif, ods</p>
           </div>
-          <br />
-          <button id="button_add_inputs">Adicionar mais colunas</button>
-        </div>
-      </div>
+        </section>
 
-      <br />
+        <section class="columns-box">
+          <button class="dropdown-button button" id="buttonDropdown">
+            <p>Selecionar colunas</p>
+            <i class="ph ph-caret-down"></i>
+          </button>
+
+          <div class="dropdown" id="dropdown">
+            <div class="modal">
+              <div class="modal-columns">
+                <label for="">planilhas 1</label>
+
+                <div id="file_1_inputs">
+                  <input class="col_file_1" type="text" placeholder="Digite a coluna" />
+                </div>
+              </div>
+
+              <div>
+                <i></i>
+              </div>
+
+              <div class="modal-columns">
+                <label for="">planilhas 2</label>
+
+                <div id="file_2_inputs">
+                  <input class="col_file_2" type="text" placeholder="Digite a coluna" />
+                </div>
+              </div>
+            </div>
+            <button id="buttonAddInputs" class="button button-modal">
+              <i class="ph ph-plus-circle"></i>
+            </button>
+          </div>
+        </section>
+      </div>
+    </header>
+
+    <main class="container">
       <form
+        class="form"
         id="uploadForm"
         enctype="multipart/form-data"
         method="post"
         action="javascript:void(0);"
       >
         {% csrf_token %}
-        <div>
-          <label for="file_1"> Documento 1</label>
-          <input
-            type="file"
-            id="file_1"
-            name="file_1"
-            placeholder="Arraste seu arquivo aqui"
-            required
-          />
-          <br />
-          <label for="file_2"> Documento 2</label>
-          <input
-            type="file"
-            id="file_2"
-            name="file_2"
-            placeholder="Arraste seu arquivo aqui"
-            required
-          />
+        <div class="form-inputs">
+          <div class="file-wrapper">
+            <label for="file_1">Planilha 1</label>
+            <div class="input-wrapper" id="fileArea1">
+              <div class="input-placeholder">
+                <i class="ph ph-microsoft-excel-logo"></i>
+                <span id="fileContent1"
+                  ><b>Arraste a planilha aqui</b> <br />
+                  ou clique na janela</span
+                >
+              </div>
+              <input
+                class="file-input"
+                type="file"
+                id="file1"
+                name="file_1"
+                placeholder="Arraste seu arquivo aqui"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="file-wrapper">
+            <label for="file_2">Planilha 2</label>
+            <div class="input-wrapper" id="fileArea2">
+              <div class="input-placeholder">
+                <i class="ph ph-microsoft-excel-logo"></i>
+                <span id="fileContent2"
+                  ><b>Arraste a planilha aqui</b> <br />
+                  ou clique na janela</span
+                >
+              </div>
+              <input
+                class="file-input"
+                type="file"
+                id="file2"
+                name="file_2"
+                placeholder="Arraste seu arquivo aqui"
+                required
+              />
+            </div>
+          </div>
         </div>
-        <br />
-        <button id="button_submit">Enviar</button>
+
+        <button class="form-button button" id="buttonSubmit">
+          Encontrar diferença
+        </button>
       </form>
     </main>
-
     <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
   </body>
 </html>

@@ -1,9 +1,47 @@
 window.addEventListener("DOMContentLoaded", () => {
-  const submitButton = document.getElementById("button_submit");
-  const addInputsButton = document.getElementById("button_add_inputs");
+  const submitButton = document.getElementById("buttonSubmit");
+  const addInputsButton = document.getElementById("buttonAddInputs");
+  const dropdownButton = document.getElementById("buttonDropdown");
 
+  dropdownButton.addEventListener("click", changeDropdownVisibility);
   submitButton.addEventListener("click", uploadFiles);
   addInputsButton.addEventListener("click", addInputs);
+
+  const fileArea1 = document.getElementById("fileArea1");
+  const fileArea2 = document.getElementById("fileArea2");
+
+  const file1 = document.getElementById("file1");
+  const file2 = document.getElementById("file2");
+
+  const fileContent1 = document.getElementById("fileContent1");
+  const fileContent2 = document.getElementById("fileContent2");
+
+  fileArea1.addEventListener("click", () => {
+    file1.click();
+  });
+  fileArea2.addEventListener("click", () => {
+    file2.click();
+  });
+
+  file1.addEventListener("change", () => {
+    if (file1.value.length > 0) {
+      fileArea1.classList.add("file-filled");
+      value = file1.value.replace("C:\\fakepath\\", "");
+      fileContent1.innerHTML = value;
+    }
+  });
+  file2.addEventListener("change", () => {
+    if (file2.value.length > 0) {
+      fileArea2.classList.add("file-filled");
+      value = file2.value.replace("C:\\fakepath\\", "");
+      fileContent2.innerHTML = value;
+    }
+  });
+
+  function changeDropdownVisibility() {
+    const dropdown = document.getElementById("dropdown");
+    dropdown.classList.toggle("show-dropdown");
+  }
 
   function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
@@ -24,32 +62,23 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function getAllInputs() {
-    // var columns = [];
+    const columns = [];
 
-    // for (let i = 1; i <= 2; i++) {
-    //   const inputValuesArray = [];
-    //   const inputs = document.querySelectorAll(`input.col_file_${i}`);
+    for (let i = 1; i <= 2; i++) {
+      const inputValuesArray = [];
+      const inputs = document.querySelectorAll(`input.col_file_${i}`);
 
-    //   inputs.forEach((input) => {
-    //     inputValuesArray.push(input.value);
-    //   });
+      inputs.forEach((input) => {
+        inputValuesArray.push(input.value);
+      });
 
-    //   columns.push(inputValuesArray);
-    // }
-
-    var columns = [
-      ["nota", "cfop", "fantasiacliente", "valortotal"],
-      ["nota", "cfop", "cliente", "valor contabil"],
-    ];
-
+      columns.push(inputValuesArray);
+    }
     return columns;
   }
 
   function uploadFiles() {
-    const file1 = document.getElementById("file_1").value;
-    const file2 = document.getElementById("file_2").value;
-
-    if (file1 && file2) {
+    if (file1.value && file2.value) {
       const form = document.getElementById("uploadForm");
       const formData = new FormData(form);
 
@@ -88,6 +117,8 @@ window.addEventListener("DOMContentLoaded", () => {
         .catch((error) => {
           console.error("Erro: ", error);
         });
+    } else {
+      alert("Preencha todos os campos!");
     }
   }
 });
