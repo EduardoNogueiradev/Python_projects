@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -36,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls'
+    'django_rename_app',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -119,8 +121,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    ("js", "/polls/static/js"),
-    ("css", "/polls/static/css"),
+    ("js", os.path.join(BASE_DIR, "api/static/js")),
+    ("css", os.path.join(BASE_DIR, "api/static/css")),
 ]
 
 # Default primary key field type

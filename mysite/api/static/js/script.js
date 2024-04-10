@@ -24,18 +24,23 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function getAllInputs() {
-    const columns = [];
+    // var columns = [];
 
-    for (let i = 1; i <= 2; i++) {
-      const inputValuesArray = [];
-      const inputs = document.querySelectorAll(`input.col_file_${i}`);
+    // for (let i = 1; i <= 2; i++) {
+    //   const inputValuesArray = [];
+    //   const inputs = document.querySelectorAll(`input.col_file_${i}`);
 
-      inputs.forEach((input) => {
-        inputValuesArray.push(input.value);
-      });
+    //   inputs.forEach((input) => {
+    //     inputValuesArray.push(input.value);
+    //   });
 
-      columns.push(inputValuesArray);
-    }
+    //   columns.push(inputValuesArray);
+    // }
+
+    var columns = [
+      ["nota", "cfop", "fantasiacliente", "valortotal"],
+      ["nota", "cfop", "cliente", "valor contabil"],
+    ];
 
     return columns;
   }
@@ -60,17 +65,28 @@ window.addEventListener("DOMContentLoaded", () => {
         method: "post",
         body: formData,
       })
-        .then((response) => /* response.blob() */ console.log(response.data))
-        // .then((blob) => {
-        //   const fileUrl = window.URL.createObjectURL(blob);
-        //   const downloadLink = document.getElementById("downloadLink");
-        //   const fileLink = document.getElementById("fileLink");
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Erro ao receber o arquivo");
+          }
 
-        //   fileLink.href = fileUrl;
-        //   downloadLink.style.display = "block";
-        // })
+          return response.blob();
+        })
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+
+          const fileLink = document.createElement("a");
+          fileLink.href = url;
+          fileLink.download = "compared_sheets.xlsx";
+
+          document.body.appendChild(fileLink);
+          fileLink.click();
+
+          document.body.removeChild(fileLink);
+          window.URL.revokeObjectURL(url);
+        })
         .catch((error) => {
-          console.error("Erro ao enviar o arquivo:", error);
+          console.error("Erro: ", error);
         });
     }
   }
