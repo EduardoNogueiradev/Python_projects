@@ -3,6 +3,20 @@ import pandas as pd
 from unidecode import unidecode
 from django.http import FileResponse
 
+def verify_types(dfs):
+    for df in dfs:
+        for col in range(len(df.columns)):
+            current_col = df.columns[col]
+            for row in range(len(df)):
+                current_row = df.index[row]
+                result = {
+                    "column": df.columns[col],
+                    "type": type(df[current_col][current_row]),
+                    "value": df[current_col][current_row],
+                    "index": current_row
+                }
+                print(result)
+
 def find_columns(df, cols):
         columns = []
         for i in range(0, len(cols)):
@@ -17,15 +31,19 @@ def find_columns(df, cols):
 def format_values(df, cols):
     df_copy = df.copy()
     df_copy.convert_dtypes()
+    # df_copy = df_copy.reset_index(drop=True)
+    index_to_delete = []
     
     for col in range(0, len(df.columns)):
+        current_col = df_copy.columns[col]
+
         for row in range(0, len(df.index)):
-            value = df.at[df.index[row], cols[col]]
             current_row = df_copy.index[row]
-            current_col = df_copy.columns[col]
+            value = df.at[df.index[row], cols[col]]
 
             if value == cols[col]:
-                df_copy.drop(current_row)
+                if (not index_to_delete.__contains__(current_row)):
+                    index_to_delete.append(current_row)
                 continue
 
             match col:
@@ -39,6 +57,9 @@ def format_values(df, cols):
                     df_copy.at[current_row, current_col] = round(value)
                 case _:
                     return
+
+    for index in index_to_delete:
+        df_copy = df_copy.drop(index=(index))
 
     return df_copy
 
@@ -130,10 +151,6 @@ def compare_values(df1, df2, cols1, cols2):
             df_not_found_values.loc[len(df_not_found_values)] = new_row_df1
             df_not_found_values = df_not_found_values.reset_index(drop=True)
     
-    # print(df_correct_values)
-    # print(df_incorrect_values)
-    # print(df_not_found_values)
-
     return create_excel_file([df_correct_values, df_incorrect_values, df_not_found_values], ["Correct Values", "Incorrect Values", "Not Found Values"])
 
 def compare_sheets(files, columns):
@@ -153,19 +170,21 @@ def compare_sheets(files, columns):
         cols_1 = find_columns(df1, cols_1)
         cols_2 = find_columns(df2, cols_2)
         
-    print("executando script")
-
     df1 = pd.read_excel(files["file_1"], usecols=cols_1).dropna(how="any").reindex(columns=cols_1)
     df2 = pd.read_excel(files["file_2"], usecols=cols_2).dropna(how="any").reindex(columns=cols_2)
 
-    print(df1)
-    print(df2)
+    # verify_types([df1, df2])
 
     df1 = format_values(df1, cols_1)
     df2 = format_values(df2, cols_2)
 
+    # verify_types([df1, df2])
+
+
     excel_file = compare_values(df1, df2, cols_1, cols_2)
     return excel_file
+
+
+
     # planilha-1 nota, cfop, fantasiacliente, valortotal 
     # planilha-2 nota, cfop, cliente, valor contabil
-

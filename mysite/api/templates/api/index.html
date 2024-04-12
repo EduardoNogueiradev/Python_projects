@@ -31,7 +31,7 @@
         <section class="columns-box">
           <button class="dropdown-button button" id="buttonDropdown">
             <p>Selecionar colunas</p>
-            <i class="ph ph-caret-down"></i>
+            <i id="iconDropdown" class="ph ph-caret-down"></i>
           </button>
 
           <div class="dropdown" id="dropdown">
@@ -56,9 +56,15 @@
                 </div>
               </div>
             </div>
-            <button id="buttonAddInputs" class="button button-modal">
-              <i class="ph ph-plus-circle"></i>
-            </button>
+            
+            <div class="modal-buttons">
+              <button id="buttonRemoveInputs" class="button button-remove">
+                <i class="ph ph-minus-circle"></i>
+              </button>
+              <button id="buttonAddInputs" class="button button-add">
+                <i class="ph ph-plus-circle "></i>
+              </button>
+            </div>
           </div>
         </section>
       </div>

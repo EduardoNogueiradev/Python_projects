@@ -1,11 +1,29 @@
 window.addEventListener("DOMContentLoaded", () => {
-  const submitButton = document.getElementById("buttonSubmit");
-  const addInputsButton = document.getElementById("buttonAddInputs");
+  const dropdown = document.getElementById("dropdown");
   const dropdownButton = document.getElementById("buttonDropdown");
+  const dropdownIcon = document.getElementById("iconDropdown");
+
+  const addInputsButton = document.getElementById("buttonAddInputs");
+  const removeInputsButton = document.getElementById("buttonRemoveInputs");
+
+  const submitButton = document.getElementById("buttonSubmit");
+
+  document.addEventListener("click", function (event) {
+    const outsideClick =
+      !dropdown.contains(event.target) &&
+      !dropdownButton.contains(event.target);
+
+    if (outsideClick) {
+      dropdownButton.classList.remove("dropdown-button__open");
+      dropdown.classList.remove("dropdown__open");
+      dropdownIcon.classList.remove("dropdown-icon__animation");
+    }
+  });
 
   dropdownButton.addEventListener("click", changeDropdownVisibility);
   submitButton.addEventListener("click", uploadFiles);
   addInputsButton.addEventListener("click", addInputs);
+  removeInputsButton.addEventListener("click", removeInputs);
 
   const fileArea1 = document.getElementById("fileArea1");
   const fileArea2 = document.getElementById("fileArea2");
@@ -39,8 +57,9 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   function changeDropdownVisibility() {
-    const dropdown = document.getElementById("dropdown");
-    dropdown.classList.toggle("show-dropdown");
+    dropdownButton.classList.toggle("dropdown-button__open");
+    dropdown.classList.toggle("dropdown__open");
+    dropdownIcon.classList.toggle("dropdown-icon__animation");
   }
 
   function insertAfter(referenceNode, newNode) {
@@ -58,6 +77,17 @@ window.addEventListener("DOMContentLoaded", () => {
         `file_${i}_inputs`
       ).lastElementChild;
       insertAfter(inputContainer, input);
+    }
+  }
+
+  function removeInputs() {
+    for (let i = 1; i <= 2; i++) {
+      const inputs = document.querySelectorAll(`input.col_file_${i}`);
+      const input = inputs[inputs.length - 1];
+
+      if (inputs.length > 1) {
+        input.remove();
+      }
     }
   }
 

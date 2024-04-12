@@ -6,6 +6,8 @@ body {
 }
 
 :root {
+  --red-800: #912018;
+  --red-400: #f97066;
   --green-900: #054f31;
   --green-500: #12b76a;
   --green-400: #32d583;
@@ -13,6 +15,7 @@ body {
   --green-50: #ecfdf3;
   --gray-800: #1e1e1e;
   --gray-400: #a0a0a0;
+  --gray-300: #c6c6c6;
   --gray-200: #ededed;
   --black: #000;
   --white: #fff;
@@ -106,11 +109,17 @@ body {
   > i {
     font-size: 16px;
     font-weight: bold;
+    transition: 0.5s ease;
   }
 
   &:hover {
-    background: var(--gray-400);
+    background: var(--gray-300);
   }
+}
+
+.dropdown-button__open {
+  background: var(--gray-300);
+  color: var(--green-900);
 }
 
 .dropdown {
@@ -127,8 +136,12 @@ body {
   z-index: 10;
 }
 
-.show-dropdown {
+.dropdown__open {
   display: flex;
+}
+
+.dropdown-icon__animation {
+  transform: rotate(180deg);
 }
 
 .modal {
@@ -169,11 +182,30 @@ body {
   box-sizing: border-box;
 }
 
-.button-modal {
+.modal-buttons {
+  display: flex;
+  gap: 4px;
+  > .button {
+    color: var(--white);
+    width: 50%;
+    > i {
+      font-size: 28px;
+    }
+  }
+}
+
+.button-add {
   background: var(--green-500);
-  color: var(--white);
-  > i {
-    font-size: 28px;
+  &:hover {
+    background: var(--green-900);
+  }
+}
+
+.button-remove {
+  background: var(--red-400);
+
+  &:hover {
+    background: var(--red-800);
   }
 }
 
